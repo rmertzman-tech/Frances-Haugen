@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRF Synthesizer (Frances Haugen Demo)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .card {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 p-4 md:p-8">
+
+    <div id="app" class="w-full max-w-7xl mx-auto">
+        
+        <!-- Header -->
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-bold">PRF Synthesizer (Frances Haugen Demo)</h1>
+            <p class="text-gray-600 mt-2">This is a pre-populated example to demonstrate the potential of the PRF analysis.</p>
+        </div>
+
+        <!-- Main Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Left Column: Info -->
+            <div class="lg:col-span-1 space-y-6">
+                <div class="card p-6">
+                    <h2 class="text-xl font-bold mb-4">About This Demo</h2>
+                    <p class="text-gray-700 mb-4">The text in these boxes has been pre-filled with reflections from the perspective of Frances Haugen, based on her public statements and testimony.</p>
+                    <p class="text-gray-700">Notice how her framework connects her technical expertise with a powerful sense of civic duty and ethical responsibility. This is the level of detail to aim for in your own work.</p>
+                </div>
+                 <div class="card p-6">
+                    <h2 class="text-xl font-bold mb-4">Your Task</h2>
+                    <p class="text-gray-700">Read through these reflections and the sample synthesis. Then, read the AI's feedback to see how it identifies themes and asks deeper questions. Use this as a model for your own PRF project.</p>
+                </div>
+            </div>
+
+            <!-- Right Column: Synthesis & Analysis -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="card p-6">
+                    <h2 class="text-xl font-bold mb-4">Review of Pre-populated Data</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 h-[400px] overflow-y-auto p-2 bg-gray-50 rounded-lg">
+                        <textarea id="beliefs-display" class="w-full h-full p-2 border rounded-md bg-white" readonly></textarea>
+                        <textarea id="rules-display" class="w-full h-full p-2 border rounded-md bg-white" readonly></textarea>
+                        <textarea id="ontology-display" class="w-full h-full p-2 border rounded-md bg-white" readonly></textarea>
+                        <textarea id="authenticity-display" class="w-full h-full p-2 border rounded-md bg-white" readonly></textarea>
+                        <textarea id="assembly_history-display" class="w-full h-full p-2 border rounded-md bg-white" readonly></textarea>
+                        <textarea id="future_pull-display" class="w-full h-full p-2 border rounded-md bg-white" readonly></textarea>
+                    </div>
+                </div>
+                <div class="card p-6">
+                    <h2 class="text-xl font-bold mb-4">Sample Synthesis</h2>
+                    <textarea id="synthesis-input" class="w-full h-80 p-3 border border-gray-300 rounded-lg" readonly></textarea>
+                    
+                    <div id="ai-analysis-card" class="mt-6">
+                        <h3 class="font-semibold mb-2 text-indigo-700 text-xl">Sample AI Analysis & Feedback</h3>
+                        <div id="ai-analysis-display" class="w-full min-h-[100px] p-3 bg-gray-50 border rounded-lg whitespace-pre-wrap"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const displays = {
+                beliefs: document.getElementById('beliefs-display'),
+                rules: document.getElementById('rules-display'),
+                ontology: document.getElementById('ontology-display'),
+                authenticity: document.getElementById('authenticity-display'),
+                assembly_history: document.getElementById('assembly_history-display'),
+                future_pull: document.getElementById('future_pull-display'),
+                synthesis: document.getElementById('synthesis-input'),
+                ai: document.getElementById('ai-analysis-display'),
+            };
+
+            const demoData = {
+                beliefs: `(General)\nMy core belief is that technology should serve humanity, not the other way around. I believe that companies building powerful algorithmic systems have a profound civic responsibility to prioritize public safety over their own profits. Transparency is not a courtesy; it is a prerequisite for a healthy democratic society in the digital age.\n\n(Specific Challenge: Facebook's algorithmic amplification of harmful content)\nMy central belief was that the company knew its algorithms were promoting division, misinformation, and harm to vulnerable users, yet it consistently chose not to implement meaningful safeguards because doing so would reduce engagement and, therefore, profit. I believed this was a preventable harm, and that knowledge created a moral obligation to act.`,
+                rules: `(General)\nA primary rule I follow is to make decisions based on data and evidence. As a data scientist, I must be rigorous and honest in my analysis. Another rule is that when I have knowledge of a systemic harm, I have a duty to speak up, especially when those being harmed do not have a voice.\n\n(Specific Challenge: Facebook's algorithmic amplification of harmful content)\nMy rule was to systematically collect the evidence. I didn't just have a feeling; I had internal documents, research, and data that proved the connection between the algorithms and the real-world harms. My rule was to not just leak a few documents, but to build an undeniable case and present it to those with the power to enact change, like journalists and regulators.`,
+                ontology: `(General)\nThe most real things in the tech world are not the user interfaces or the public relations statements; they are the underlying algorithmic systems and the business incentives that drive them. The code itself is a form of crystallized ideology. To understand a platform, you must understand the metrics it is designed to optimize.\n\n(Specific Challenge: Facebook's algorithmic amplification of harmful content)\nThe company's stated reality was that it was connecting the world. My interpretation, based on the data, was that its true reality was an engagement-maximization machine. The 'real' thing at stake was not just user experience, but the integrity of democratic processes and the mental health of millions.`,
+                authenticity: `(General)\nMy authentic self is a problem-solver. I am trained to identify systemic flaws and design solutions. I feel most authentic when I am using my technical skills in service of the public good. To have that knowledge and not use it to prevent harm would be a profound betrayal of my professional and personal identity.\n\n(Specific Challenge: Facebook's algorithmic amplification of harmful content)\nThe 'mask' I had to wear inside the company was that of a loyal employee who accepted the company's priorities. Internally, I was experiencing a growing crisis of conscience. The cost of my authenticity—becoming a whistleblower—was the loss of my career, my privacy, and my personal safety. But the cost of inauthenticity would have been complicity in a system I knew was causing harm.`,
+                assembly_history: `My assembly history is rooted in a strong sense of civic duty instilled by my parents, who were both professors. This was combined with a technical education and a career spent at multiple major tech companies. I saw firsthand how good intentions could be undermined by incentive structures that prioritized growth above all else. My time at Google, Yelp, and Pinterest gave me a comparative perspective that allowed me to see that Facebook's problems were not inevitable, but were the result of specific design and policy choices.`,
+                future_pull: `My 'future pull' is a vision of a tech industry that is held accountable for its societal impact. I want to help build a future where social media is designed to support human flourishing, not exploit our psychological vulnerabilities. The capability I am trying to build now is that of a translator and advocate—bridging the gap between the technical complexities of algorithms and the public's need for safety and transparency. My legacy, I hope, will be to have helped create the conditions for meaningful tech reform.`,
+                synthesis: `My Personal Reality Framework is built on the belief that my technical expertise creates a unique ethical responsibility. This belief, forged in my 'assembly history' across the tech industry, led to a core rule: when you have evidence of systemic harm, you have a duty to act. My ontology sees the algorithms themselves as the most 'real' force shaping our society, making their design a moral issue, not just a technical one.\n\nThis framework created an unavoidable 'temporal incoherence' during my time at Facebook. My authentic self as a problem-solver was in direct conflict with a corporate culture that I believed was unwilling to solve the problems it was creating. My 'future pull'—a vision of a more responsible tech industry—compelled me to act. My synthesis is that in the 21st century, professional integrity for technologists must include a component of civic duty. We are the architects of the new public square, and we have a moral obligation to ensure it does not crumble under the weight of our own creations.`,
+                ai: `Thank you for these clear and principled reflections. Your framework demonstrates a powerful sense of ethical clarity and civic courage in a complex, modern context.\n\n**Key Themes:**\n1.  **Expertise as Obligation:** A core theme is your belief that specialized knowledge creates a special moral duty. You see your technical skills not just as a career asset, but as a tool that you are obligated to use for the public good.\n2.  **Systemic Thinking:** You consistently analyze problems at a systemic level, focusing on the underlying algorithms and business incentives rather than surface-level issues. This ontological focus gives your critique its power and credibility.\n3.  **Authenticity as Action:** Your authenticity is not just an internal feeling, but a call to action. You define your true self as a problem-solver, which meant that when you identified a problem you believed was being ignored, inaction was not an authentic option for you.\n\n**Potential Tensions:**\n- Your framework is built on a commitment to data-driven, evidence-based decision-making. How do you navigate the reality that public policy and regulatory change are often slow, messy processes driven by political compromise rather than clean data? Is there a tension between your ideal of an evidence-based solution and the pragmatic realities of the political world?\n\n**A Question for Deeper Synthesis:**\n- You successfully used your insider knowledge to create a public conversation about accountability. What can your life's synthesis teach us about the role of individual whistleblowers versus collective action (like unions or professional ethics boards) in creating a more responsible tech industry for the future?`
+            };
+
+            Object.keys(displays).forEach(key => {
+                if (demoData[key]) {
+                    displays[key].value = demoData[key];
+                    displays[key].textContent = demoData[key];
+                }
+            });
+        });
+    </script>
+</body>
+</html>
