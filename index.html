@@ -103,6 +103,7 @@
                 ai: `Thank you for these clear and principled reflections. Your framework demonstrates a powerful sense of civic duty and professional integrity in the face of modern ethical challenges.\n\n**Key Themes:**\n1.  **Knowledge as Responsibility:** A central theme is your belief that specialized knowledge, particularly when it reveals public harm, creates a profound ethical obligation to act that supersedes corporate loyalty.\n2.  **Data-Driven Ethics:** Your actions are consistently grounded in evidence. You position yourself not as an ideologue, but as a data scientist whose conclusions are based on the company's own research, which gives your testimony a unique authority.\n3.  **Systemic over Individual Focus:** You consistently analyze the problem not in terms of individual bad actors, but as the predictable outcome of a system designed to maximize engagement at all costs. Your proposed solutions are therefore also systemic (e.g., regulation, algorithmic transparency).\n\n**Potential Tensions:**\n- You advocate for systemic change and regulation, yet your own action was that of a single, courageous individual. How do you balance the need for individual whistleblowers to take on immense personal risk versus the hope for a system that has enough built-in checks and balances to correct itself without relying on such personal sacrifice?\n\n**A Question for Deeper Synthesis:**\n- You successfully used the 'old' systems of media and government (newspapers, Congress) to expose the harms of the 'new' systems of social media. What does this experience tell you about the enduring importance of traditional democratic institutions in the digital age?`
             };
 
+            const DEMO_NAME = 'Frances Haugen';
             const loadDemoBtn = document.getElementById('load-demo-btn');
             const DATA_KEYS = {
                 beliefs: 'prf_beliefs_data',
@@ -112,6 +113,7 @@
                 assembly_history: 'prf_assembly_history_data',
                 future_pull: 'prf_future_pull_data'
             };
+            const DEMO_NAME_KEY = 'prf_current_demo_name';
 
             function showMessage(message, type = 'success') {
                 const toast = document.createElement('div');
@@ -133,10 +135,11 @@
 
             loadDemoBtn.addEventListener('click', () => {
                 try {
+                    localStorage.setItem(DEMO_NAME_KEY, DEMO_NAME);
                     Object.keys(DATA_KEYS).forEach(key => {
                         localStorage.setItem(DATA_KEYS[key], demoData[key]);
                     });
-                    showMessage('Demo data has been successfully saved to your browser. You can now load it in the main PRF Synthesizer app.');
+                    showMessage('Demo data has been successfully saved. You can now load it in the main PRF Synthesizer app.');
                 } catch (e) {
                     console.error("Error saving to localStorage:", e);
                     showMessage('Could not save demo data. Your browser may be in private mode or have storage disabled.', 'error');
