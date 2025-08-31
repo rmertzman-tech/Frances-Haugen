@@ -15,35 +15,45 @@
             border-radius: 1rem;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
         }
+        .btn {
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+        .btn-primary {
+            background-color: #4f46e5;
+            color: white;
+        }
+        .btn-primary:hover {
+            background-color: #4338ca;
+        }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800 p-4 md:p-8">
 
     <div id="app" class="w-full max-w-7xl mx-auto">
         
-        <!-- Header -->
         <div class="text-center mb-8">
             <h1 class="text-4xl font-bold">PRF Synthesizer (Frances Haugen Demo)</h1>
             <p class="text-gray-600 mt-2">This is a pre-populated example to demonstrate the potential of the PRF analysis.</p>
         </div>
 
-        <!-- Main Workspace -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
-            <!-- Left Column: Info -->
             <div class="lg:col-span-1 space-y-6">
                 <div class="card p-6">
                     <h2 class="text-xl font-bold mb-4">About This Demo</h2>
                     <p class="text-gray-700 mb-4">The text in these boxes has been pre-filled with reflections from the perspective of Frances Haugen, based on her public statements and testimony.</p>
-                    <p class="text-gray-700">Notice how her framework connects her technical expertise with a powerful sense of civic duty and ethical responsibility. This is the level of detail to aim for in your own work.</p>
+                    <p class="text-gray-700">Read through the reflections, and then use the button below to load this data into the main Synthesizer app for analysis.</p>
+                    <button id="load-demo-btn" class="btn btn-primary w-full mt-4 py-3 rounded-lg font-semibold">Load this Demo into Synthesizer</button>
                 </div>
                  <div class="card p-6">
                     <h2 class="text-xl font-bold mb-4">Your Task</h2>
-                    <p class="text-gray-700">Read through these reflections and the sample synthesis. Then, read the AI's feedback to see how it identifies themes and asks deeper questions. Use this as a model for your own PRF project.</p>
+                    <p class="text-gray-700">After loading the data, open the main PRF Synthesizer. You can then use the "Guided Synthesis" feature to have a conversation with the AI tutor about this example, providing a model for your own analysis.</p>
                 </div>
             </div>
 
-            <!-- Right Column: Synthesis & Analysis -->
             <div class="lg:col-span-2 space-y-6">
                 <div class="card p-6">
                     <h2 class="text-xl font-bold mb-4">Review of Pre-populated Data</h2>
@@ -60,7 +70,7 @@
                     <h2 class="text-xl font-bold mb-4">Sample Synthesis</h2>
                     <textarea id="synthesis-input" class="w-full h-80 p-3 border border-gray-300 rounded-lg" readonly></textarea>
                     
-                    <div id="ai-analysis-card" class="mt-6">
+                    <div class="mt-6">
                         <h3 class="font-semibold mb-2 text-indigo-700 text-xl">Sample AI Analysis & Feedback</h3>
                         <div id="ai-analysis-display" class="w-full min-h-[100px] p-3 bg-gray-50 border rounded-lg whitespace-pre-wrap"></div>
                     </div>
@@ -83,20 +93,53 @@
             };
 
             const demoData = {
-                beliefs: `(General)\nMy core belief is that technology should serve humanity, not the other way around. I believe that companies building powerful algorithmic systems have a profound civic responsibility to prioritize public safety over their own profits. Transparency is not a courtesy; it is a prerequisite for a healthy democratic society in the digital age.\n\n(Specific Challenge: Facebook's algorithmic amplification of harmful content)\nMy central belief was that the company knew its algorithms were promoting division, misinformation, and harm to vulnerable users, yet it consistently chose not to implement meaningful safeguards because doing so would reduce engagement and, therefore, profit. I believed this was a preventable harm, and that knowledge created a moral obligation to act.`,
-                rules: `(General)\nA primary rule I follow is to make decisions based on data and evidence. As a data scientist, I must be rigorous and honest in my analysis. Another rule is that when I have knowledge of a systemic harm, I have a duty to speak up, especially when those being harmed do not have a voice.\n\n(Specific Challenge: Facebook's algorithmic amplification of harmful content)\nMy rule was to systematically collect the evidence. I didn't just have a feeling; I had internal documents, research, and data that proved the connection between the algorithms and the real-world harms. My rule was to not just leak a few documents, but to build an undeniable case and present it to those with the power to enact change, like journalists and regulators.`,
-                ontology: `(General)\nThe most real things in the tech world are not the user interfaces or the public relations statements; they are the underlying algorithmic systems and the business incentives that drive them. The code itself is a form of crystallized ideology. To understand a platform, you must understand the metrics it is designed to optimize.\n\n(Specific Challenge: Facebook's algorithmic amplification of harmful content)\nThe company's stated reality was that it was connecting the world. My interpretation, based on the data, was that its true reality was an engagement-maximization machine. The 'real' thing at stake was not just user experience, but the integrity of democratic processes and the mental health of millions.`,
-                authenticity: `(General)\nMy authentic self is a problem-solver. I am trained to identify systemic flaws and design solutions. I feel most authentic when I am using my technical skills in service of the public good. To have that knowledge and not use it to prevent harm would be a profound betrayal of my professional and personal identity.\n\n(Specific Challenge: Facebook's algorithmic amplification of harmful content)\nThe 'mask' I had to wear inside the company was that of a loyal employee who accepted the company's priorities. Internally, I was experiencing a growing crisis of conscience. The cost of my authenticity—becoming a whistleblower—was the loss of my career, my privacy, and my personal safety. But the cost of inauthenticity would have been complicity in a system I knew was causing harm.`,
-                assembly_history: `My assembly history is rooted in a strong sense of civic duty instilled by my parents, who were both professors. This was combined with a technical education and a career spent at multiple major tech companies. I saw firsthand how good intentions could be undermined by incentive structures that prioritized growth above all else. My time at Google, Yelp, and Pinterest gave me a comparative perspective that allowed me to see that Facebook's problems were not inevitable, but were the result of specific design and policy choices.`,
-                future_pull: `My 'future pull' is a vision of a tech industry that is held accountable for its societal impact. I want to help build a future where social media is designed to support human flourishing, not exploit our psychological vulnerabilities. The capability I am trying to build now is that of a translator and advocate—bridging the gap between the technical complexities of algorithms and the public's need for safety and transparency. My legacy, I hope, will be to have helped create the conditions for meaningful tech reform.`,
-                synthesis: `My Personal Reality Framework is built on the belief that my technical expertise creates a unique ethical responsibility. This belief, forged in my 'assembly history' across the tech industry, led to a core rule: when you have evidence of systemic harm, you have a duty to act. My ontology sees the algorithms themselves as the most 'real' force shaping our society, making their design a moral issue, not just a technical one.\n\nThis framework created an unavoidable 'temporal incoherence' during my time at Facebook. My authentic self as a problem-solver was in direct conflict with a corporate culture that I believed was unwilling to solve the problems it was creating. My 'future pull'—a vision of a more responsible tech industry—compelled me to act. My synthesis is that in the 21st century, professional integrity for technologists must include a component of civic duty. We are the architects of the new public square, and we have a moral obligation to ensure it does not crumble under the weight of our own creations.`,
-                ai: `Thank you for these clear and principled reflections. Your framework demonstrates a powerful sense of ethical clarity and civic courage in a complex, modern context.\n\n**Key Themes:**\n1.  **Expertise as Obligation:** A core theme is your belief that specialized knowledge creates a special moral duty. You see your technical skills not just as a career asset, but as a tool that you are obligated to use for the public good.\n2.  **Systemic Thinking:** You consistently analyze problems at a systemic level, focusing on the underlying algorithms and business incentives rather than surface-level issues. This ontological focus gives your critique its power and credibility.\n3.  **Authenticity as Action:** Your authenticity is not just an internal feeling, but a call to action. You define your true self as a problem-solver, which meant that when you identified a problem you believed was being ignored, inaction was not an authentic option for you.\n\n**Potential Tensions:**\n- Your framework is built on a commitment to data-driven, evidence-based decision-making. How do you navigate the reality that public policy and regulatory change are often slow, messy processes driven by political compromise rather than clean data? Is there a tension between your ideal of an evidence-based solution and the pragmatic realities of the political world?\n\n**A Question for Deeper Synthesis:**\n- You successfully used your insider knowledge to create a public conversation about accountability. What can your life's synthesis teach us about the role of individual whistleblowers versus collective action (like unions or professional ethics boards) in creating a more responsible tech industry for the future?`
+                beliefs: `My core belief is that technology platforms have a moral and civic responsibility that goes beyond their duty to shareholders. I believe that when a company builds a system that influences the thoughts and behaviors of billions, it must prioritize public safety over profit. I also believe in the power of data. The internal data I saw proved that the company knew about the harms its platform was causing, and I believe that this kind of evidence creates an obligation to act.`,
+                rules: `A primary rule I follow is to "follow the data." My actions were not based on opinion, but on the company's own rigorous internal research. Another rule is to "act with civic responsibility." As a citizen with specialized knowledge about a public threat, I felt I had a duty to inform the public and lawmakers. Finally, I have a rule of "seeking productive solutions." My goal was not simply to criticize, but to provide the evidence needed to create constructive regulations and safer systems.`,
+                ontology: `My ontology is grounded in a data-driven understanding of social systems. What is most 'real' to me are the measurable, large-scale effects that algorithms have on society—effects like increased polarization, harm to teenage mental health, and the spread of ethnic violence. While the company focused on engagement metrics as the primary reality, I saw the real-world consequences as the more fundamental truth. For me, a social network is not a neutral town square; it is a designed environment with predictable, and often harmful, outcomes.`,
+                authenticity: `Authenticity for me meant I could no longer live with the contradiction between my professional knowledge of the harm being done and my inaction. It would have been deeply inauthentic to continue working to optimize a system that I knew was hurting people. My authentic self is the data scientist who believes in evidence and the citizen who believes in public safety. The decision to become a whistleblower was the only way to align my actions with those core parts of my identity. It was a difficult choice, but to remain silent would have been a betrayal of who I am.`,
+                assembly_history: `My assembly history is rooted in a technical education and a career spent inside multiple major tech companies. I was trained as an algorithmic product manager, which means I have a deep, practical understanding of how these systems are built and what they are designed to do. I have seen from the inside how the pursuit of engagement can override other ethical considerations. This insider experience was the key event in my formation; it gave me both the technical expertise to understand the problem and the credibility to speak about it publicly. I was not an outsider throwing stones; I was an expert describing what I had seen.`,
+                future_pull: `My 'future pull' is the vision of a healthier, safer, and more accountable internet. I envision a future where social media companies are subject to meaningful oversight and are legally responsible for the harms their algorithms amplify. I also envision a future where young people can grow up without their mental health being actively undermined by the platforms they use. This vision of a reformed tech industry creates a present constraint, compelling me to advocate for specific regulations, support other whistleblowers, and work towards building a non-profit dedicated to this cause.`,
+                synthesis: `My framework is built on the core belief that data confers moral responsibility. My professional expertise gave me access to evidence of systemic harm, and I believe that knowledge created an unavoidable ethical duty to act. This ontological commitment to the reality of data-driven consequences directly informs my primary rule: to prioritize public safety over corporate loyalty.\n\nMy personal authenticity was found in resolving the conflict between my role as an employee and my duty as an informed citizen. My assembly history as a tech insider was not just a career path; it became the foundation for my public testimony. The 'future pull' of a safer, more accountable internet provides the roadmap for my ongoing advocacy. My synthesis is this: in the digital age, professionals with specialized knowledge have a new kind of civic duty. When you know that a system is causing preventable harm, you have a responsibility to speak up, not just as a matter of personal conscience, but as a matter of public health.`,
+                ai: `Thank you for these clear and principled reflections. Your framework demonstrates a powerful sense of civic duty and professional integrity in the face of modern ethical challenges.\n\n**Key Themes:**\n1.  **Knowledge as Responsibility:** A central theme is your belief that specialized knowledge, particularly when it reveals public harm, creates a profound ethical obligation to act that supersedes corporate loyalty.\n2.  **Data-Driven Ethics:** Your actions are consistently grounded in evidence. You position yourself not as an ideologue, but as a data scientist whose conclusions are based on the company's own research, which gives your testimony a unique authority.\n3.  **Systemic over Individual Focus:** You consistently analyze the problem not in terms of individual bad actors, but as the predictable outcome of a system designed to maximize engagement at all costs. Your proposed solutions are therefore also systemic (e.g., regulation, algorithmic transparency).\n\n**Potential Tensions:**\n- You advocate for systemic change and regulation, yet your own action was that of a single, courageous individual. How do you balance the need for individual whistleblowers to take on immense personal risk versus the hope for a system that has enough built-in checks and balances to correct itself without relying on such personal sacrifice?\n\n**A Question for Deeper Synthesis:**\n- You successfully used the 'old' systems of media and government (newspapers, Congress) to expose the harms of the 'new' systems of social media. What does this experience tell you about the enduring importance of traditional democratic institutions in the digital age?`
             };
 
+            const loadDemoBtn = document.getElementById('load-demo-btn');
+            const DATA_KEYS = {
+                beliefs: 'prf_beliefs_data',
+                rules: 'prf_rules_data',
+                ontology: 'prf_ontology_data',
+                authenticity: 'prf_authenticity_data',
+                assembly_history: 'prf_assembly_history_data',
+                future_pull: 'prf_future_pull_data'
+            };
+
+            function showMessage(message, type = 'success') {
+                const toast = document.createElement('div');
+                toast.textContent = message;
+                let bgColor = type === 'success' ? 'bg-green-600' : 'bg-red-600';
+                toast.className = `fixed top-5 left-1/2 -translate-x-1/2 ${bgColor} text-white px-6 py-3 rounded-lg shadow-lg transition-opacity duration-300`;
+                document.body.appendChild(toast);
+                setTimeout(() => toast.style.opacity = '0', 2700);
+                setTimeout(() => toast.remove(), 3000);
+            }
+            
+            // Populate the display boxes on page load
             Object.keys(displays).forEach(key => {
                 if (demoData[key]) {
                     displays[key].value = demoData[key];
                     displays[key].textContent = demoData[key];
+                }
+            });
+
+            loadDemoBtn.addEventListener('click', () => {
+                try {
+                    Object.keys(DATA_KEYS).forEach(key => {
+                        localStorage.setItem(DATA_KEYS[key], demoData[key]);
+                    });
+                    showMessage('Demo data has been successfully saved to your browser. You can now load it in the main PRF Synthesizer app.');
+                } catch (e) {
+                    console.error("Error saving to localStorage:", e);
+                    showMessage('Could not save demo data. Your browser may be in private mode or have storage disabled.', 'error');
                 }
             });
         });
